@@ -1,0 +1,8 @@
+/**
+ * Sinon.JS {{version}}, {{timestamp}}
+ *
+ * @author Christian Johansen (christian@cjohansen.no)
+ * @author Contributors: https://github.com/cjohansen/Sinon.JS/blob/master/AUTHORS
+ *
+ * {{license}}
+ */

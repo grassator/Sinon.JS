@@ -14,10 +14,18 @@
   },
   "license": "BSD-3-Clause",
   "scripts": {
+    "clean": "$(npm bin)/rimraf pkg",
     "ci-test": "npm run lint && ./scripts/ci-test.sh",
     "test": "./scripts/ci-test.sh",
     "lint": "$(npm bin)/eslint .",
-    "prepublish": "./build",
+    "build-ie": "mkdirp pkg && node scripts/license.js > pkg/sinon-ie-${npm_package_version}.js && $(npm bin)/copy lib/sinon/util/timers_ie.js >> pkg/sinon-ie-${npm_package_version}.js && $(npm bin)/copy lib/sinon/util/xhr_ie.js >> pkg/sinon-ie-${npm_package_version}.js  && $(npm bin)/copy lib/sinon/util/xdr_ie.js >> pkg/sinon-ie-${npm_package_version}.js",
+    "build-main": "mkdirp pkg && node scripts/license.js > pkg/sinon-${npm_package_version}.js && echo '(function () {\"use strict\";' >> pkg/sinon-${npm_package_version}.js && $(npm bin)/browserify -s sinon lib/sinon.js >> pkg/sinon-${npm_package_version}.js && echo '}());' >> pkg/sinon-${npm_package_version}.js",
+    "build-server": "mkdirp pkg && node scripts/license.js > pkg/sinon-server-${npm_package_version}.js && echo '(function () {\"use strict\";' >> pkg/sinon-server-${npm_package_version}.js && $(npm bin)/browserify -i './lib/sinon/util/core.js' -s sinon lib/sinon/util/fake_server_with_clock.js >> pkg/sinon-server-${npm_package_version}.js && echo '}());' >> pkg/sinon-server-${npm_package_version}.js",
+    "copy-main": "$(npm bin)/copy pkg/sinon-${npm_package_version}.js > pkg/sinon.js",
+    "copy-server": "$(npm bin)/copy pkg/sinon-server-${npm_package_version}.js > pkg/sinon-server.js",
+    "copy-ie": "$(npm bin)/copy pkg/sinon-ie-${npm_package_version}.js > pkg/sinon-ie.js",
+    "build": "npm run build-main && npm run build-server && npm run build-ie && npm run copy-main && npm run copy-server && npm run copy-ie",
+    "release": "npm run lint && npm run test && npm run clean && npm run build && npm run publish",
     "eslint-pre-commit": "./scripts/eslint-pre-commit"
   },
   "pre-commit": [
@@ -34,10 +42,13 @@
     "buster": "0.7.18",
     "buster-core": "^0.6.4",
     "buster-istanbul": "0.1.13",
+    "copy-cli": "1.2.1",
     "eslint": "0.24.0",
     "eslint-config-defaults": "^2.1.0",
     "jscs": "1.13.1",
-    "pre-commit": "1.0.10"
+    "mkdirp": "0.5.1",
+    "pre-commit": "1.0.10",
+    "rimraf": "2.4.3"
   },
   "files": [
     "lib",

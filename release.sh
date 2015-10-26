@@ -1,8 +1,7 @@
+#!/usr/bin/env sh
 git push
 git push --tags
-npm publish
-rm -f pkg/*
-ruby -rubygems build
+npm run release
 cp pkg/* ../sinon-web/releases/.
 cp Changelog.txt ../sinon-web/.
 cd ../sinon-web

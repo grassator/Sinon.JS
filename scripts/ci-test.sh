@@ -28,5 +28,5 @@ echo "starting buster-test (source)"
 
 echo
 echo "starting buster-test (packaged)"
-./build
+npm run build
 ./node_modules/buster/bin/buster-test --config test/buster-packaged.js

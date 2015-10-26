@@ -23,7 +23,7 @@ $ npm version x.y.z
 ## Publish to NPM
 
 ```
-$ npm publish
+$ npm run release
 ```
 
 ## Update static site
